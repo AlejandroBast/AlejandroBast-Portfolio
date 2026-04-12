@@ -13,7 +13,7 @@ export function HeroSphere() {
     let animationId = 0
 
     function buildLayout() {
-      SPHERE = Math.min(window.innerWidth * 0.42, 700)
+      SPHERE = Math.min(window.innerWidth * 1, 1000)
 
       earthInner.style.width = `${SPHERE}px`
       earthInner.style.height = `${SPHERE}px`

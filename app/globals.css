@@ -147,3 +147,123 @@ body {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.hero-scroll-curve {
+  position: absolute;
+  left: 50%;
+  bottom: -420px;
+  z-index: 12;
+
+  height: 720px;
+  width: min(2000px, 150vw);
+
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  border-top-left-radius: 9999px;
+  border-top-right-radius: 9999px;
+
+  /* negro base */
+  background: #000;
+
+  /* borde tenue */
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+  /* ✨ glow MUY sutil */
+  box-shadow:
+    0 -20px 40px rgba(5, 199, 233, 0.219),
+    0 -60px 120px rgba(2, 165, 240, 0.308);
+
+  text-decoration: none;
+
+  transition:
+    transform 0.45s ease,
+    opacity 0.4s ease,
+    box-shadow 0.45s ease,
+    border-color 0.45s ease;
+}
+
+.hero-scroll-curve:hover {
+  transform: translateX(-50%) scale(1.01);
+  border-top-color: rgba(8, 161, 172, 0.295);
+}
+
+.hero-scroll-line {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  height: 50px;
+  width: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0.05)
+  );
+}
+
+.hero-scroll-text {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgb(255, 255, 255);
+}
+
+.hero-scroll-curve:hover {
+  transform: translateX(-50%) scale(1.01);
+
+  /* se ilumina un poco */
+  border-top-color: rgb(17, 200, 224);
+
+  box-shadow:
+    0 -20px 40px rgba(5, 199, 233, 0.521),
+    0 -60px 120px rgb(2, 164, 240);
+}
+
+.hero-scroll-curve--hidden {
+  opacity: 0;
+  transform: translateX(-50%) translateY(60px);
+  pointer-events: none;
+}
+
+.hero-scroll-curve::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+
+  background: radial-gradient(
+    ellipse at top,
+    rgb(0, 0, 0) 0%,
+    rgba(247, 0, 0, 0.02) 50%,
+    transparent 50%
+  );
+
+  opacity: 0.6;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.hero-scroll-curve:hover::before {
+  opacity: 1;
+}
+
+.hero-gradient {
+  background: linear-gradient(135deg, #ff6ec4, #7873f5);
+  background-size: 200% 200%;
+  animation: gradientShift 5s ease infinite;
+}
+
+html {
+  scroll-behavior: smooth;
+}

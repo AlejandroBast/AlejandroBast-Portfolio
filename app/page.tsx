@@ -5,6 +5,8 @@ export default function Home() {
     <>
       <HeroSection />
 
+
+
       <section
         id="sobre-mi"
         className="relative z-20 flex min-h-screen items-center justify-center"

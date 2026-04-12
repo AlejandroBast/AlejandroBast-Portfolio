@@ -1,6 +1,56 @@
+"use client"
+
+import { useEffect, useState } from "react"
 import { HeroOrbits } from "@/components/hero-orbits"
 
 export function HeroSection() {
+  const [hideScrollArc, setHideScrollArc] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setHideScrollArc(window.scrollY > 60)
+    }
+
+    handleScroll()
+    window.addEventListener("scroll", handleScroll)
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [])
+
+  const smoothScrollToSection = (targetId: string) => {
+    const target = document.getElementById(targetId)
+    if (!target) return
+
+    const start = window.scrollY
+    const end = target.getBoundingClientRect().top + window.scrollY
+    const duration = 1200
+    let startTime: number | null = null
+
+    const easeInOutCubic = (t: number) =>
+      t < 0.5
+        ? 4 * t * t * t
+        : 1 - Math.pow(-2 * t + 2, 3) / 2
+
+    const animateScroll = (currentTime: number) => {
+      if (startTime === null) startTime = currentTime
+
+      const elapsed = currentTime - startTime
+      const progress = Math.min(elapsed / duration, 1)
+      const easedProgress = easeInOutCubic(progress)
+
+      const nextPosition = start + (end - start) * easedProgress
+      window.scrollTo(0, nextPosition)
+
+      if (progress < 1) {
+        requestAnimationFrame(animateScroll)
+      }
+    }
+
+    requestAnimationFrame(animateScroll)
+  }
+
   return (
     <section
       id="inicio"
@@ -8,18 +58,18 @@ export function HeroSection() {
     >
       <HeroOrbits />
 
-      <div className="relative z-20 mx-auto flex w-full max-w-7xl px-6">
+      <div className="relative z-20 mx-auto flex w-full max-w-7xl px-10">
         <div className="max-w-2xl">
           <p className="mb-4 text-sm uppercase tracking-[0.3em] text-white/60">
-            Software Engineer
+            Alejandro Bast
           </p>
 
           <h1 className="text-5xl font-bold leading-tight text-white md:text-7xl">
-            Diseño y desarrollo
+            SOFTWARE 
             <br />
-            experiencias web
+            ENGINEER
             <br />
-            con impacto
+            & DEVELOPER
           </h1>
 
           <p className="mt-6 max-w-xl text-base leading-7 text-white/70 md:text-lg">
@@ -44,6 +94,19 @@ export function HeroSection() {
           </div>
         </div>
       </div>
+
+      <a
+        href="#sobre-mi"
+        aria-label="Ir a la siguiente sección"
+        className={`hero-scroll-curve ${hideScrollArc ? "hero-scroll-curve--hidden" : ""}`}
+        onClick={(e) => {
+          e.preventDefault()
+          smoothScrollToSection("sobre-mi")
+        }}
+      >
+        <span className="hero-scroll-line"></span>
+        <span className="hero-scroll-text">Scroll Down</span>
+      </a>
     </section>
   )
 }
