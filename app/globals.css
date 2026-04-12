@@ -1,26 +1,251 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #000;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Arial Black', Arial, sans-serif;
+  cursor: none;
+}
+
+.cursor-dot {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+
+.cursor-ring {
+  position: fixed;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 9998;
+}
+
+.hero-section {
+  position: relative;
+  height: 100svh;
+  overflow: hidden;
+  background: #000;
+  opacity: 0;
+  animation: fadeIn 2s cubic-bezier(0.43, 0.05, 0.27, 1.25) forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+.hero-gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20%;
+  z-index: 5;
+  background: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 80%);
+}
+
+.hero-headline-en {
+  position: absolute;
+  top: 20%;
+  left: 2vw;
+  font-weight: 700;
+  font-size: clamp(3.6rem, 4.667vw, 4.667vw);
+  line-height: 1.1;
+  color: #fff;
+  z-index: 6;
+}
+
+.hero-headline-en .accent {
+  color: #60a5fa;
+}
+
+.hero-headline-ja {
+  position: absolute;
+  bottom: 25%;
+  right: 2vw;
+  width: 24%;
+  z-index: 6;
+  color: #fff;
+}
+
+.hero-headline-ja .hj-title {
+  font-size: 2.6vw;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.hero-headline-ja .hj-desc {
+  font-size: 0.733vw;
+  margin-top: 1.5vw;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.hero-earth-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.scene {
+  position: relative;
+  transform-style: preserve-3d;
+  perspective: 900px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hero-earth-inner {
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+  animation: slowRotate 180s linear infinite;
+  z-index: 2;
+  box-shadow: 0 0 80px rgba(66, 122, 255, 0.14);
+  flex-shrink: 0;
+}
+
+.hero-earth-bg,
+.hero-earth-hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.hero-earth-bg { z-index: 1; }
+
+.hero-earth-hover {
+  z-index: 2;
+  mask-image: radial-gradient(circle 300px at -9999px -9999px, transparent 0%, black 80%);
+  -webkit-mask-image: radial-gradient(circle 300px at -9999px -9999px, transparent 0%, black 80%);
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+}
+
+.orbit-layer {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+  pointer-events: none;
+}
+
+.orbit-layer::before {
+  content: '';
+  position: absolute;
+  inset: 10%;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+.orbit-dot-wrap {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  animation: orbitDotSpin 8s linear infinite;
+}
+
+.orbit-dot {
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow:
+    0 0 10px rgba(255, 255, 255, 0.85),
+    0 0 20px rgba(255, 255, 255, 0.35);
+}
+
+.orbit-1 .orbit-dot-wrap:nth-child(2) { animation-duration: 7s; }
+.orbit-1 .orbit-dot-wrap:nth-child(3) { animation-duration: 11s; animation-direction: reverse; }
+.orbit-2 .orbit-dot-wrap:nth-child(2) { animation-duration: 10s; }
+.orbit-2 .orbit-dot-wrap:nth-child(3) { animation-duration: 14s; animation-direction: reverse; }
+
+.orbit-1 .orbit-dot-wrap:nth-child(2) .orbit-dot { transform: scale(0.90); opacity: 0.85; }
+.orbit-1 .orbit-dot-wrap:nth-child(3) .orbit-dot { transform: scale(0.75); opacity: 0.70; }
+.orbit-2 .orbit-dot-wrap:nth-child(2) .orbit-dot { transform: scale(0.80); opacity: 0.80; }
+.orbit-2 .orbit-dot-wrap:nth-child(3) .orbit-dot { transform: scale(0.65); opacity: 0.65; }
+
+.orbit-1 { animation: orbitFloat        18s linear infinite; }
+.orbit-2 { animation: orbitFloatReverse 24s linear infinite; }
+
+@keyframes slowRotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes orbitFloat {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes orbitFloatReverse {
+  from { transform: translate(-50%, -50%) rotate(360deg); }
+  to   { transform: translate(-50%, -50%) rotate(0deg); }
+}
+
+@keyframes orbitDotSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@media (max-width: 1024px) {
+  .hero-headline-en {
+    top: 14%;
+    font-size: min(7rem, 7vw);
+  }
+  .hero-headline-ja {
+    bottom: 12%;
+    width: 30%;
+  }
+  .hero-headline-ja .hj-title { font-size: 4rem; }
+  .hero-headline-ja .hj-desc  { font-size: 1.4rem; margin-top: 1.5rem; }
+}
+
+@media (max-width: 599px) {
+  .hero-headline-en {
+    left: 1.5rem;
+    font-size: 4.2rem;
+    line-height: 1.2;
+  }
+  .hero-headline-ja {
+    right: 1.5rem;
+    bottom: 18%;
+    width: 40%;
+  }
+  .hero-headline-ja .hj-title { font-size: 2rem; }
+  .hero-headline-ja .hj-desc  { font-size: 0.9rem; }
 }
