@@ -1,64 +1,28 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-
-const projects = [
-  {
-    id: "01",
-    title: "Dashboard Analytics",
-    description:
-      "Plataforma de análisis de datos en tiempo real con visualizaciones interactivas, filtros avanzados y exportación de reportes.",
-    tags: ["Next.js", "TypeScript", "Chart.js", "PostgreSQL"],
-    link: "#",
-    year: "2024",
-    color: "rgba(5, 199, 233, 0.12)",
-    glow: "rgba(5, 199, 233, 0.25)",
-  },
-  {
-    id: "02",
-    title: "E-Commerce Fullstack",
-    description:
-      "Tienda online completa con carrito de compras, pasarela de pago, panel de administración y sistema de inventario.",
-    tags: ["React", "Node.js", "Stripe", "MongoDB"],
-    link: "#",
-    year: "2024",
-    color: "rgba(120, 115, 245, 0.12)",
-    glow: "rgba(120, 115, 245, 0.25)",
-  },
-  {
-    id: "03",
-    title: "App de Gestión de Tareas",
-    description:
-      "Herramienta de productividad con tableros Kanban, colaboración en tiempo real, notificaciones y sincronización offline.",
-    tags: ["React", "Socket.io", "Express", "Tailwind"],
-    link: "#",
-    year: "2023",
-    color: "rgba(255, 110, 196, 0.12)",
-    glow: "rgba(255, 110, 196, 0.25)",
-  },
-  {
-    id: "04",
-    title: "API REST Escalable",
-    description:
-      "Backend robusto con autenticación JWT, rate limiting, documentación Swagger y despliegue con Docker y CI/CD.",
-    tags: ["Node.js", "Express", "Docker", "Swagger"],
-    link: "#",
-    year: "2023",
-    color: "rgba(255, 180, 50, 0.12)",
-    glow: "rgba(255, 180, 50, 0.2)",
-  },
-]
+import { useLanguage } from "@/contexts/language-context"
 
 function ProjectCard({
   project,
   index,
   visible,
 }: {
-  project: (typeof projects)[0]
+  project: {
+    id: string
+    title: string
+    description: string
+    tags: string[]
+    link: string
+    year: string
+    color: string
+    glow: string
+  }
   index: number
   visible: boolean
 }) {
   const [hovered, setHovered] = useState(false)
+  const { t } = useLanguage()
 
   return (
     <div
@@ -78,7 +42,7 @@ function ProjectCard({
           boxShadow: hovered ? `0 0 40px ${project.glow}` : "none",
         }}
       >
-        <div className="flex items-start justify-between mb-4">
+        <div className="flex items-start justify-between mb-3 sm:mb-4">
           <span className="text-xs font-mono text-white/25 tracking-widest">{project.id}</span>
           <div
             className="flex items-center gap-1 text-xs text-white/40 transition-all duration-300"
@@ -91,14 +55,14 @@ function ProjectCard({
           </div>
         </div>
 
-        <h3 className="mb-3 text-xl font-bold text-white">{project.title}</h3>
-        <p className="mb-6 text-sm leading-6 text-white/55">{project.description}</p>
+        <h3 className="mb-2 text-lg font-bold text-white sm:mb-3 sm:text-xl">{project.title}</h3>
+        <p className="mb-4 text-xs leading-6 text-white/55 sm:mb-6 sm:text-sm">{project.description}</p>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5 sm:gap-2">
           {project.tags.map((tag) => (
             <span
               key={tag}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/60"
+              className="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-xs text-white/60 sm:px-3 sm:py-1"
             >
               {tag}
             </span>
@@ -106,10 +70,10 @@ function ProjectCard({
         </div>
 
         <div
-          className="mt-6 flex items-center gap-2 text-xs font-medium text-white/50 transition-all duration-300"
+          className="mt-4 flex items-center gap-2 text-xs font-medium text-white/50 transition-all duration-300 sm:mt-6"
           style={{ opacity: hovered ? 1 : 0, transform: hovered ? "translateX(0)" : "translateX(-8px)" }}
         >
-          Ver proyecto
+          {t("projects.view")}
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
             <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
           </svg>
@@ -122,6 +86,54 @@ function ProjectCard({
 export function Projects() {
   const sectionRef = useRef<HTMLElement>(null)
   const [visible, setVisible] = useState(false)
+  const { t } = useLanguage()
+
+  const projects = [
+    {
+      id: "01",
+      title: t("project.1.title"),
+      description: t("project.1.desc"),
+      tags: ["Next.js", "TypeScript", "Chart.js", "PostgreSQL"],
+      // TODO: Reemplaza con el link real de tu proyecto o repositorio GitHub
+      link: "https://github.com/AlejandroBast",
+      year: "2024",
+      color: "rgba(5, 199, 233, 0.12)",
+      glow: "rgba(5, 199, 233, 0.25)",
+    },
+    {
+      id: "02",
+      title: t("project.2.title"),
+      description: t("project.2.desc"),
+      tags: ["React", "Node.js", "Stripe", "MongoDB"],
+      // TODO: Reemplaza con el link real de tu proyecto o repositorio GitHub
+      link: "https://github.com/AlejandroBast",
+      year: "2024",
+      color: "rgba(120, 115, 245, 0.12)",
+      glow: "rgba(120, 115, 245, 0.25)",
+    },
+    {
+      id: "03",
+      title: t("project.3.title"),
+      description: t("project.3.desc"),
+      tags: ["React", "Socket.io", "Express", "Tailwind"],
+      // TODO: Reemplaza con el link real de tu proyecto o repositorio GitHub
+      link: "https://github.com/AlejandroBast",
+      year: "2023",
+      color: "rgba(255, 110, 196, 0.12)",
+      glow: "rgba(255, 110, 196, 0.25)",
+    },
+    {
+      id: "04",
+      title: t("project.4.title"),
+      description: t("project.4.desc"),
+      tags: ["Node.js", "Express", "Docker", "Swagger"],
+      // TODO: Reemplaza con el link real de tu proyecto o repositorio GitHub
+      link: "https://github.com/AlejandroBast",
+      year: "2023",
+      color: "rgba(255, 180, 50, 0.12)",
+      glow: "rgba(255, 180, 50, 0.2)",
+    },
+  ]
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -136,30 +148,38 @@ export function Projects() {
     <section
       id="proyectos"
       ref={sectionRef}
-      className="relative z-20 min-h-screen flex items-center justify-center py-32 px-6"
+      className="relative z-20 min-h-screen flex items-center justify-center py-20 px-4 sm:py-32 sm:px-6"
     >
+      {/* Transparent background overlay for better text readability */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: "linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.45) 50%, rgba(0,0,0,0.25) 100%)",
+          backdropFilter: "blur(1px)",
+        }}
+      />
       <div className="relative mx-auto w-full max-w-6xl">
         <div
-          className="mb-20"
+          className="mb-12 sm:mb-20"
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? "translateY(0)" : "translateY(32px)",
             transition: "opacity 0.8s ease, transform 0.8s ease",
           }}
         >
-          <p className="mb-3 text-xs uppercase tracking-[0.35em] text-white/40">02 — Proyectos</p>
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <h2 className="text-5xl font-bold text-white md:text-6xl">Mi trabajo</h2>
+          <p className="mb-2 text-xs uppercase tracking-[0.3em] text-white/40 sm:mb-3 sm:tracking-[0.35em]">{t("projects.section")}</p>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+            <h2 className="text-4xl font-bold text-white sm:text-5xl md:text-6xl">{t("projects.title")}</h2>
             <a
               href="#"
               className="text-sm text-white/40 underline underline-offset-4 transition hover:text-white/80"
             >
-              Ver todos →
+              {t("projects.viewAll")}
             </a>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
           {projects.map((project, i) => (
             <ProjectCard key={project.id} project={project} index={i} visible={visible} />
           ))}
@@ -169,13 +189,19 @@ export function Projects() {
       <style jsx>{`
         .project-card {
           display: block;
-          border-radius: 16px;
+          border-radius: 12px;
           border: 1px solid rgba(255,255,255,0.08);
-          padding: 28px;
+          padding: 20px;
           text-decoration: none;
           transition: background 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease, transform 0.3s ease;
           cursor: pointer;
           height: 100%;
+        }
+        @media (min-width: 640px) {
+          .project-card {
+            border-radius: 16px;
+            padding: 28px;
+          }
         }
         .project-card:hover {
           border-color: rgba(255,255,255,0.16);

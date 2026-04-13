@@ -1,11 +1,6 @@
 "use client"
 
-const navLinks = [
-  { label: "Inicio", href: "#inicio" },
-  { label: "Sobre mí", href: "#sobre-mi" },
-  { label: "Proyectos", href: "#proyectos" },
-  { label: "Contacto", href: "#contacto" },
-]
+import { useLanguage } from "@/contexts/language-context"
 
 const socials = [
   {
@@ -39,6 +34,14 @@ const socials = [
 
 export function Footer() {
   const year = new Date().getFullYear()
+  const { t } = useLanguage()
+
+  const navLinks = [
+    { label: t("nav.home"), href: "#inicio" },
+    { label: t("nav.about"), href: "#sobre-mi" },
+    { label: t("nav.projects"), href: "#proyectos" },
+    { label: t("nav.contact"), href: "#contacto" },
+  ]
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id.replace("#", ""))
@@ -47,7 +50,7 @@ export function Footer() {
     const end = el.getBoundingClientRect().top + window.scrollY
     const duration = 900
     let startTime: number | null = null
-    const ease = (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
+    const ease = (x: number) => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2
     const step = (now: number) => {
       if (!startTime) startTime = now
       const p = Math.min((now - startTime) / duration, 1)
@@ -66,28 +69,28 @@ export function Footer() {
         style={{ background: "linear-gradient(90deg, transparent, rgba(5,199,233,0.4), transparent)" }}
       />
 
-      <div className="mx-auto max-w-6xl px-6 py-16">
+      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-16">
         {/* Main row */}
-        <div className="flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
+        <div className="grid grid-cols-2 gap-8 sm:grid-cols-2 md:grid-cols-4 md:gap-12">
 
           {/* Brand */}
-          <div className="max-w-xs">
-            <p className="mb-1 text-xl font-bold text-white tracking-tight">Alejandro Bast</p>
-            <p className="mb-5 text-sm text-white/40">Full Stack Junior Developer</p>
-            <p className="text-sm leading-6 text-white/35">
-              Construyendo productos digitales modernos con pasión por el código limpio, el diseño cuidado y la experiencia de usuario.
+          <div className="col-span-2 sm:col-span-2 md:col-span-1">
+            <p className="mb-1 text-lg font-bold text-white tracking-tight sm:text-xl">Alejandro Bast</p>
+            <p className="mb-3 text-xs text-white/40 sm:mb-5 sm:text-sm">Full Stack Junior Developer</p>
+            <p className="text-xs leading-5 text-white/35 sm:text-sm sm:leading-6 max-w-xs">
+              {t("footer.desc")}
             </p>
           </div>
 
           {/* Nav */}
           <div>
-            <p className="mb-5 text-xs uppercase tracking-[0.3em] text-white/30">Navegación</p>
-            <ul className="space-y-3">
+            <p className="mb-3 text-xs uppercase tracking-[0.2em] text-white/30 sm:mb-5 sm:tracking-[0.3em]">{t("footer.nav")}</p>
+            <ul className="space-y-2 sm:space-y-3">
               {navLinks.map((link) => (
                 <li key={link.label}>
                   <button
                     onClick={() => scrollTo(link.href)}
-                    className="text-sm text-white/45 transition-colors duration-200 hover:text-white/90 text-left"
+                    className="text-xs text-white/45 transition-colors duration-200 hover:text-white/90 text-left sm:text-sm"
                   >
                     {link.label}
                   </button>
@@ -98,20 +101,20 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <p className="mb-5 text-xs uppercase tracking-[0.3em] text-white/30">Contacto</p>
-            <ul className="space-y-3">
+            <p className="mb-3 text-xs uppercase tracking-[0.2em] text-white/30 sm:mb-5 sm:tracking-[0.3em]">{t("footer.contact")}</p>
+            <ul className="space-y-2 sm:space-y-3">
               <li>
-                <a href="mailto:nicohlas.personal@gmail.com" className="text-sm text-white/45 hover:text-white/90 transition-colors">
+                <a href="mailto:nicohlas.personal@gmail.com" className="text-xs text-white/45 hover:text-white/90 transition-colors break-all sm:text-sm">
                   nicohlas.personal@gmail.com
                 </a>
               </li>
               <li>
-                <a href="https://github.com/AlejandroBast" target="_blank" rel="noopener noreferrer" className="text-sm text-white/45 hover:text-white/90 transition-colors">
+                <a href="https://github.com/AlejandroBast" target="_blank" rel="noopener noreferrer" className="text-xs text-white/45 hover:text-white/90 transition-colors sm:text-sm">
                   github.com/AlejandroBast
                 </a>
               </li>
               <li>
-                <a href="https://www.linkedin.com/in/alejandro-bast" target="_blank" rel="noopener noreferrer" className="text-sm text-white/45 hover:text-white/90 transition-colors">
+                <a href="https://www.linkedin.com/in/alejandro-bast" target="_blank" rel="noopener noreferrer" className="text-xs text-white/45 hover:text-white/90 transition-colors sm:text-sm">
                   linkedin.com/in/alejandro-bast
                 </a>
               </li>
@@ -120,8 +123,8 @@ export function Footer() {
 
           {/* Social icons */}
           <div>
-            <p className="mb-5 text-xs uppercase tracking-[0.3em] text-white/30">Redes</p>
-            <div className="flex gap-3">
+            <p className="mb-3 text-xs uppercase tracking-[0.2em] text-white/30 sm:mb-5 sm:tracking-[0.3em]">{t("footer.social")}</p>
+            <div className="flex gap-2 sm:gap-3">
               {socials.map((s) => (
                 <a
                   key={s.label}
@@ -139,14 +142,14 @@ export function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="mt-14 border-t border-white/[0.06] pt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 border-t border-white/[0.06] pt-6 flex flex-col gap-2 sm:mt-14 sm:pt-8 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
           <p className="text-xs text-white/20">
-            © {year} Alejandro Bast — Todos los derechos reservados.
+            © {year} Alejandro Bast — {t("footer.rights")}
           </p>
           <p className="text-xs text-white/18">
-            Diseñado y desarrollado con{" "}
-            <span className="text-white/35">♥</span>{" "}
-            usando Next.js & Tailwind CSS
+            {t("footer.madeWith")}{" "}
+            <span className="text-white/35">{"<3"}</span>{" "}
+            {t("footer.using")}
           </p>
         </div>
       </div>
@@ -156,14 +159,20 @@ export function Footer() {
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 40px;
-          height: 40px;
+          width: 36px;
+          height: 36px;
           border-radius: 10px;
           border: 1px solid rgba(255,255,255,0.08);
           background: rgba(255,255,255,0.03);
           color: rgba(255,255,255,0.45);
           text-decoration: none;
           transition: border-color 0.25s, background 0.25s, color 0.25s, transform 0.2s;
+        }
+        @media (min-width: 640px) {
+          .social-icon-btn {
+            width: 40px;
+            height: 40px;
+          }
         }
         .social-icon-btn:hover {
           border-color: rgba(5,199,233,0.35);

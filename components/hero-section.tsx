@@ -2,8 +2,12 @@
 
 import { useEffect, useState } from "react"
 import { HeroOrbits } from "@/components/hero-orbits"
+import { useLanguage } from "@/contexts/language-context"
+import { useTransition } from "@/contexts/transition-context"
 
 export function HeroSection() {
+  const { t } = useLanguage()
+  const { triggerTransition } = useTransition()
   const [hideScrollArc, setHideScrollArc] = useState(false)
 
   useEffect(() => {
@@ -20,77 +24,59 @@ export function HeroSection() {
   }, [])
 
   const smoothScrollToSection = (targetId: string) => {
-    const target = document.getElementById(targetId)
-    if (!target) return
-
-    const start = window.scrollY
-    const end = target.getBoundingClientRect().top + window.scrollY
-    const duration = 1200
-    let startTime: number | null = null
-
-    const easeInOutCubic = (t: number) =>
-      t < 0.5
-        ? 4 * t * t * t
-        : 1 - Math.pow(-2 * t + 2, 3) / 2
-
-    const animateScroll = (currentTime: number) => {
-      if (startTime === null) startTime = currentTime
-
-      const elapsed = currentTime - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      const easedProgress = easeInOutCubic(progress)
-
-      const nextPosition = start + (end - start) * easedProgress
-      window.scrollTo(0, nextPosition)
-
-      if (progress < 1) {
-        requestAnimationFrame(animateScroll)
-      }
-    }
-
-    requestAnimationFrame(animateScroll)
+    triggerTransition(() => {
+      const target = document.getElementById(targetId)
+      if (!target) return
+      target.scrollIntoView({ behavior: "instant", block: "start" })
+    })
   }
 
   return (
     <section
       id="inicio"
-      className="relative flex min-h-screen items-center justify-center overflow-hidden"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden pt-16 md:pt-0"
     >
+      {/* Transparent background overlay for better text readability */}
+      <div 
+        className="absolute inset-0 pointer-events-none z-10"
+        style={{
+          background: "radial-gradient(ellipse at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.4) 70%, rgba(0,0,0,0.5) 100%)",
+        }}
+      />
       <HeroOrbits />
 
-      <div className="relative z-20 mx-auto flex w-full max-w-7xl px-10">
+      <div className="relative z-20 mx-auto flex w-full max-w-7xl px-4 sm:px-6 md:px-10">
         <div className="max-w-2xl">
-          <p className="mb-4 text-sm uppercase tracking-[0.3em] text-white/60">
-            Alejandro Bast
+          <p className="mb-3 text-xs uppercase tracking-[0.25em] text-white/60 sm:mb-4 sm:text-sm sm:tracking-[0.3em]">
+            {t("hero.subtitle")}
           </p>
 
-          <h1 className="text-5xl font-bold leading-tight text-white md:text-7xl">
-            SOFTWARE 
+          <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl md:text-7xl">
+            {t("hero.title1")}
             <br />
-            ENGINEER
+            {t("hero.title2")}
             <br />
-            & DEVELOPER
+            {t("hero.title3")}
           </h1>
 
-          <p className="mt-6 max-w-xl text-base leading-7 text-white/70 md:text-lg">
-            Creo interfaces modernas, elegantes e interactivas con enfoque en
-            diseño, rendimiento y experiencia de usuario.
+          <p className="mt-4 max-w-xl text-sm leading-7 text-white/70 sm:mt-6 sm:text-base md:text-lg">
+            {t("hero.description")}
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-4">
-            <a
-              href="#proyectos"
-              className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-black transition hover:scale-105"
+          <div className="mt-6 flex flex-wrap gap-3 sm:mt-8 sm:gap-4">
+            <button
+              onClick={() => smoothScrollToSection("proyectos")}
+              className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black transition hover:scale-105 sm:px-6 sm:py-3"
             >
-              Ver proyectos
-            </a>
+              {t("hero.projects")}
+            </button>
 
-            <a
-              href="#contacto"
-              className="rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur-md transition hover:scale-105"
+            <button
+              onClick={() => smoothScrollToSection("contacto")}
+              className="rounded-full border border-white/20 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-md transition hover:scale-105 sm:px-6 sm:py-3"
             >
-              Contacto
-            </a>
+              {t("hero.contact")}
+            </button>
           </div>
         </div>
       </div>
@@ -98,15 +84,25 @@ export function HeroSection() {
       <a
         href="#sobre-mi"
         aria-label="Ir a la siguiente sección"
-        className={`hero-scroll-curve ${hideScrollArc ? "hero-scroll-curve--hidden" : ""}`}
+        className={`hero-scroll-curve hidden md:flex ${hideScrollArc ? "hero-scroll-curve--hidden" : ""}`}
         onClick={(e) => {
           e.preventDefault()
           smoothScrollToSection("sobre-mi")
         }}
       >
         <span className="hero-scroll-line"></span>
-        <span className="hero-scroll-text">Scroll Down</span>
+        <span className="hero-scroll-text">{t("hero.scroll")}</span>
       </a>
+
+      {/* Mobile scroll indicator */}
+      <div
+        className={`absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 md:hidden transition-opacity duration-300 ${
+          hideScrollArc ? "opacity-0" : "opacity-100"
+        }`}
+      >
+        <span className="text-xs uppercase tracking-widest text-white/50">{t("hero.scroll")}</span>
+        <div className="h-8 w-px bg-gradient-to-b from-white/50 to-transparent" />
+      </div>
     </section>
   )
 }
