@@ -12,7 +12,6 @@ interface LanguageContextType {
 
 const translations: Record<Language, Record<string, string>> = {
   es: {
-    // Hero
     "hero.subtitle": "Alejandro Bast",
     "hero.title1": "SOFTWARE",
     "hero.title2": "ENGINEER",
@@ -22,13 +21,11 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.contact": "Contacto",
     "hero.scroll": "Scroll Down",
 
-    // Nav
     "nav.home": "Inicio",
     "nav.about": "Sobre mí",
     "nav.projects": "Proyectos",
     "nav.contact": "Contacto",
 
-    // About
     "about.section": "01 — Sobre mí",
     "about.title": "Quién soy",
     "about.bio1": "Soy <strong>Alejandro Bast</strong>, desarrollador web <span>Full Stack Junior</span> con pasión por construir productos digitales modernos, funcionales y bien diseñados.",
@@ -42,33 +39,26 @@ const translations: Record<Language, Record<string, string>> = {
     "about.fullstack": "Stack Junior Dev",
     "about.tech": "tecnologías",
 
-    // Skill categories
     "skill.languages": "Lenguajes",
     "skill.frameworks": "Frameworks & Librerías",
     "skill.databases": "Bases de Datos",
     "skill.backend": "Backend & DevOps",
     "skill.tools": "Herramientas",
 
-    // Education
     "edu.software": "Ingeniería de Software",
     "edu.commercial": "Ingeniería en Software Comercial",
-    "edu.year": "3er año en curso",
+    "edu.year": "2do año en curso",
 
-    // Interests
     "interest.music": "Música",
     "interest.outdoor": "Aire libre",
     "interest.games": "Desarrollo de videojuegos",
     "interest.hardware": "Hardware & Componentes",
 
-    // Projects
     "projects.section": "02 — Proyectos",
     "projects.title": "Mi trabajo",
     "projects.viewAll": "Ver todos →",
     "projects.view": "Ver proyecto",
 
-    // ── TODO: Reemplaza los proyectos con tus proyectos reales ──────────────
-    // Edita título, descripción, tags y link en components/sections/projects.tsx
-    // ────────────────────────────────────────────────────────────────────────
     "project.1.title": "Dashboard Analytics",
     "project.1.desc": "Plataforma de análisis de datos en tiempo real con visualizaciones interactivas, filtros avanzados y exportación de reportes.",
     "project.2.title": "E-Commerce Fullstack",
@@ -78,7 +68,6 @@ const translations: Record<Language, Record<string, string>> = {
     "project.4.title": "API REST Escalable",
     "project.4.desc": "Backend robusto con autenticación JWT, rate limiting, documentación Swagger y despliegue con Docker y CI/CD.",
 
-    // Contact
     "contact.section": "03 — Contacto",
     "contact.title": "Hablemos",
     "contact.intro1": "¿Tienes un proyecto en mente, una propuesta de trabajo o simplemente quieres ponerte en contacto?",
@@ -96,7 +85,6 @@ const translations: Record<Language, Record<string, string>> = {
     "contact.sendAnother": "Enviar otro mensaje",
     "contact.error": "Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo.",
 
-    // Footer
     "footer.nav": "Navegación",
     "footer.contact": "Contacto",
     "footer.social": "Redes",
@@ -106,7 +94,7 @@ const translations: Record<Language, Record<string, string>> = {
     "footer.using": "usando Next.js & Tailwind CSS",
   },
   en: {
-    // Hero
+
     "hero.subtitle": "Alejandro Bast",
     "hero.title1": "SOFTWARE",
     "hero.title2": "ENGINEER",
@@ -116,13 +104,12 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.contact": "Contact",
     "hero.scroll": "Scroll Down",
 
-    // Nav
+  
     "nav.home": "Home",
     "nav.about": "About",
     "nav.projects": "Projects",
     "nav.contact": "Contact",
 
-    // About
     "about.section": "01 — About me",
     "about.title": "Who I am",
     "about.bio1": "I am <strong>Alejandro Bast</strong>, a <span>Full Stack Junior</span> web developer with a passion for building modern, functional, and well-designed digital products.",
@@ -136,31 +123,26 @@ const translations: Record<Language, Record<string, string>> = {
     "about.fullstack": "Stack Junior Dev",
     "about.tech": "technologies",
 
-    // Skill categories
     "skill.languages": "Languages",
     "skill.frameworks": "Frameworks & Libraries",
     "skill.databases": "Databases",
     "skill.backend": "Backend & DevOps",
     "skill.tools": "Tools",
 
-    // Education
     "edu.software": "Software Engineering",
     "edu.commercial": "Commercial Software Engineering",
     "edu.year": "3rd year in progress",
 
-    // Interests
     "interest.music": "Music",
     "interest.outdoor": "Outdoors",
     "interest.games": "Game Development",
     "interest.hardware": "Hardware & Components",
 
-    // Projects
     "projects.section": "02 — Projects",
     "projects.title": "My work",
     "projects.viewAll": "View all →",
     "projects.view": "View project",
 
-    // Project items
     "project.1.title": "Analytics Dashboard",
     "project.1.desc": "Real-time data analysis platform with interactive visualizations, advanced filters, and report exports.",
     "project.2.title": "Fullstack E-Commerce",
@@ -170,9 +152,8 @@ const translations: Record<Language, Record<string, string>> = {
     "project.4.title": "Scalable REST API",
     "project.4.desc": "Robust backend with JWT authentication, rate limiting, Swagger documentation, and Docker CI/CD deployment.",
 
-    // Contact
     "contact.section": "03 — Contact",
-    "contact.title": "Let&apos;s talk",
+    "contact.title": "Let's talk",
     "contact.intro1": "Do you have a project in mind, a job proposal, or simply want to get in touch?",
     "contact.intro2": "I am available for freelance roles and full-time positions. Feel free to reach out.",
     "contact.name": "Name",
@@ -188,7 +169,6 @@ const translations: Record<Language, Record<string, string>> = {
     "contact.sendAnother": "Send another message",
     "contact.error": "There was an error sending the message. Please try again.",
 
-    // Footer
     "footer.nav": "Navigation",
     "footer.contact": "Contact",
     "footer.social": "Social",
