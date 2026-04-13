@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { useLanguage } from "@/contexts/language-context"
+import Image from "next/image"
 
 export function AboutMe() {
   const { t, lang } = useLanguage()
@@ -167,28 +168,15 @@ export function AboutMe() {
           >
             <div className="photo-frame mx-auto lg:mx-0">
               <div className="photo-inner">
-                {/*
-                  ✅ PARA AGREGAR TU FOTO:
-                  1. Copia tu foto a /public/foto-perfil.webp (recomendado) o .jpg
-                  2. Agrega al inicio del archivo: import Image from "next/image"
-                  3. Reemplaza el <div className="photo-placeholder"> con:
-                  <Image
-                    src="/foto-perfil.webp"
-                    alt="Alejandro Bast"
-                    fill
-                    className="object-cover object-top"
-                    sizes="(max-width: 640px) 220px, 280px"
-                    priority
-                  />
-                */}
+                
                 <div className="photo-placeholder">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1" className="text-white/20">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                  </svg>
-                  <p className="mt-3 text-xs text-cyan-400/50 text-center leading-5 font-mono px-4">
-                    {lang === "es" ? "→ /public/foto-perfil.webp" : "→ /public/profile-photo.webp"}
-                    <br/><span className="text-white/20 text-[10px]">{lang === "es" ? "ver comentario en código" : "see code comment"}</span>
-                  </p>
+                  <Image
+                    src="/foto-perfil.webp" // Asegúrate de colocar tu foto en /public/profile.jpg o ajusta la ruta
+                    alt="Foto de Alejandro Bast"
+                    width={400}
+                    height={533}
+                    className="object-cover w-full h-full"
+                  />
                 </div>
               </div>
               <div className="photo-glow" />

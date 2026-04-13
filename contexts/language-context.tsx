@@ -47,7 +47,7 @@ const translations: Record<Language, Record<string, string>> = {
 
     "edu.software": "Ingeniería de Software",
     "edu.commercial": "Ingeniería en Software Comercial",
-    "edu.year": "2do año en curso",
+    "edu.year": "3rd año en curso",
 
     "interest.music": "Música",
     "interest.outdoor": "Aire libre",
