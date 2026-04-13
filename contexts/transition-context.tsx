@@ -131,7 +131,7 @@ function PageTransitionOverlay({
         style={{
           bottom: phase === "entering" ? "0" : "auto",
           top: phase === "leaving" ? "0" : "auto",
-          transform: phase === "idle" ? "translateY(100vh)" : "translateY(0)",
+          transform: "translateY(0)",
           background: "linear-gradient(90deg, transparent, #22d3ee, #06b6d4, #22d3ee, transparent)",
           boxShadow: "0 0 20px 8px rgba(6, 182, 212, 0.4)",
         }}
