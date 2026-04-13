@@ -94,7 +94,6 @@ export function Projects() {
       title: t("project.1.title"),
       description: t("project.1.desc"),
       tags: ["Next.js", "TypeScript", "Chart.js", "PostgreSQL"],
-      // TODO: Reemplaza con el link real de tu proyecto o repositorio GitHub
       link: "https://github.com/AlejandroBast",
       year: "2024",
       color: "rgba(5, 199, 233, 0.12)",
@@ -105,7 +104,6 @@ export function Projects() {
       title: t("project.2.title"),
       description: t("project.2.desc"),
       tags: ["React", "Node.js", "Stripe", "MongoDB"],
-      // TODO: Reemplaza con el link real de tu proyecto o repositorio GitHub
       link: "https://github.com/AlejandroBast",
       year: "2024",
       color: "rgba(120, 115, 245, 0.12)",
@@ -116,7 +114,7 @@ export function Projects() {
       title: t("project.3.title"),
       description: t("project.3.desc"),
       tags: ["React", "Socket.io", "Express", "Tailwind"],
-      // TODO: Reemplaza con el link real de tu proyecto o repositorio GitHub
+
       link: "https://github.com/AlejandroBast",
       year: "2023",
       color: "rgba(255, 110, 196, 0.12)",
@@ -127,7 +125,6 @@ export function Projects() {
       title: t("project.4.title"),
       description: t("project.4.desc"),
       tags: ["Node.js", "Express", "Docker", "Swagger"],
-      // TODO: Reemplaza con el link real de tu proyecto o repositorio GitHub
       link: "https://github.com/AlejandroBast",
       year: "2023",
       color: "rgba(255, 180, 50, 0.12)",
@@ -150,7 +147,6 @@ export function Projects() {
       ref={sectionRef}
       className="relative z-20 min-h-screen flex items-center justify-center py-20 px-4 sm:py-32 sm:px-6"
     >
-      {/* Transparent background overlay for better text readability */}
       <div 
         className="absolute inset-0 pointer-events-none"
         style={{

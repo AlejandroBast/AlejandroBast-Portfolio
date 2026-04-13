@@ -62,15 +62,12 @@ function PageTransitionOverlay({
 }) {
   const [phase, setPhase] = useState<"idle" | "entering" | "leaving">("idle")
 
-  // Handle transition phases
   if (isActive && phase === "idle") {
     setPhase("entering")
-    // Midpoint - when curtain is fully down
     setTimeout(() => {
       onMidpoint()
       setPhase("leaving")
     }, 600)
-    // Complete - curtain fully up
     setTimeout(() => {
       setPhase("idle")
       onComplete()
@@ -81,7 +78,6 @@ function PageTransitionOverlay({
 
   return (
     <div className="fixed inset-0 z-[100] pointer-events-none overflow-hidden">
-      {/* Main curtain layer 1 */}
       <div
         className="absolute inset-0 transition-transform duration-[600ms] ease-[cubic-bezier(0.76,0,0.24,1)]"
         style={{
@@ -100,7 +96,6 @@ function PageTransitionOverlay({
         }}
       />
 
-      {/* Second layer - delayed */}
       <div
         className="absolute inset-0 transition-transform duration-[600ms] delay-[50ms] ease-[cubic-bezier(0.76,0,0.24,1)]"
         style={{
@@ -116,7 +111,6 @@ function PageTransitionOverlay({
         }}
       />
 
-      {/* Third layer - most delayed */}
       <div
         className="absolute inset-0 transition-transform duration-[600ms] delay-[100ms] ease-[cubic-bezier(0.76,0,0.24,1)]"
         style={{
@@ -125,7 +119,6 @@ function PageTransitionOverlay({
         }}
       />
 
-      {/* Shimmer line at edge */}
       <div
         className="absolute left-0 right-0 h-[2px] transition-transform duration-[600ms] ease-[cubic-bezier(0.76,0,0.24,1)]"
         style={{
@@ -137,7 +130,6 @@ function PageTransitionOverlay({
         }}
       />
 
-      {/* Center indicator */}
       <div
         className="absolute inset-0 flex items-center justify-center transition-opacity duration-300"
         style={{ opacity: phase === "entering" ? 1 : 0 }}

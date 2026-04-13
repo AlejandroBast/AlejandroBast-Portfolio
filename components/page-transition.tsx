@@ -7,12 +7,10 @@ export function PageTransition() {
   const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
-    // Start exit animation after component mounts
     const exitTimer = setTimeout(() => {
       setIsExiting(true);
     }, 100);
 
-    // Remove component from DOM after animation completes
     const hideTimer = setTimeout(() => {
       setIsVisible(false);
     }, 1200);
@@ -27,7 +25,6 @@ export function PageTransition() {
 
   return (
     <div className="fixed inset-0 z-[100] pointer-events-none">
-      {/* Main curtain */}
       <div
         className={`absolute inset-0 transition-transform duration-1000 ease-[cubic-bezier(0.76,0,0.24,1)] ${
           isExiting ? "-translate-y-full" : "translate-y-0"
