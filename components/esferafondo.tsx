@@ -33,8 +33,13 @@ export const HeroSphere = memo(function HeroSphere() {
     buildLayout()
     window.addEventListener("resize", buildLayout)
 
-    let target = { x: -9999, y: -9999, r: 0 }
-    let current = { x: -9999, y: -9999, r: 0 }
+    // Pointer is tracked in *screen* space and converted into the sphere's
+    // own (rotated) coordinate space every frame — otherwise the reveal
+    // circle drifts away from the cursor as the sphere spins.
+    const pointer = { x: -9999, y: -9999 }
+    let targetR = 0
+    let primed = false
+    const current = { x: -9999, y: -9999, r: 0 }
 
     function applyMask(x: number, y: number, r: number) {
       const mask = `radial-gradient(circle ${r}px at ${x}px ${y}px, transparent 0%, black 80%)`
@@ -46,21 +51,50 @@ export const HeroSphere = memo(function HeroSphere() {
       return a + (b - a) * t
     }
 
-    function animateMask() {
-      current.x = lerp(current.x, target.x, 0.1)
-      current.y = lerp(current.y, target.y, 0.1)
-      current.r = lerp(current.r, target.r, 0.09)
+    // Current rotation of the sphere, read straight from its computed transform.
+    function getRotation() {
+      const tr = getComputedStyle(earthInner).transform
+      if (!tr || tr === "none") return 0
+      const m = tr.match(/matrix(?:3d)?\(([^)]+)\)/)
+      if (!m) return 0
+      const v = m[1].split(",").map(parseFloat)
+      // matrix(a, b, ...) → rotation = atan2(b, a)
+      return Math.atan2(v[1], v[0])
+    }
 
-      applyMask(current.x, current.y, Math.max(0, current.r))
+    function animateMask() {
+      current.x = lerp(current.x, pointer.x, 0.12)
+      current.y = lerp(current.y, pointer.y, 0.12)
+      current.r = lerp(current.r, targetR, 0.09)
+
+      const rect = earthInner.getBoundingClientRect()
+      const cx = rect.left + rect.width / 2
+      const cy = rect.top + rect.height / 2
+      const angle = getRotation()
+      const cos = Math.cos(angle)
+      const sin = Math.sin(angle)
+
+      // Cursor vector from the sphere centre (screen space) …
+      const dx = current.x - cx
+      const dy = current.y - cy
+      // … rotated by -angle back into the sphere's un-rotated local space.
+      const localX = dx * cos + dy * sin
+      const localY = -dx * sin + dy * cos
+
+      applyMask(SPHERE / 2 + localX, SPHERE / 2 + localY, Math.max(0, current.r))
       animationId = requestAnimationFrame(animateMask)
     }
 
     const handleMouseMove = (e: MouseEvent) => {
-      const rect = earthInner.getBoundingClientRect()
-
-      target.x = e.clientX - rect.left
-      target.y = e.clientY - rect.top
-      target.r = Math.round(SPHERE * 0.37)
+      pointer.x = e.clientX
+      pointer.y = e.clientY
+      // Snap on first move so the reveal doesn't sweep in from the corner.
+      if (!primed) {
+        current.x = pointer.x
+        current.y = pointer.y
+        primed = true
+      }
+      targetR = Math.round(SPHERE * 0.37)
 
       // Use transform instead of left/top to avoid layout reflows (GPU-accelerated)
       if (cursorDot && cursorRing) {
@@ -70,7 +104,7 @@ export const HeroSphere = memo(function HeroSphere() {
     }
 
     const handleMouseLeave = () => {
-      target.r = 0
+      targetR = 0
       if (cursorDot && cursorRing) {
         cursorDot.style.opacity = "0"
         cursorRing.style.opacity = "0"
@@ -88,15 +122,19 @@ export const HeroSphere = memo(function HeroSphere() {
     const handleTouchMove = (e: TouchEvent) => {
       if (e.touches.length > 0) {
         const touch = e.touches[0]
-        const rect = earthInner.getBoundingClientRect()
-        target.x = touch.clientX - rect.left
-        target.y = touch.clientY - rect.top
-        target.r = Math.round(SPHERE * 0.37)
+        pointer.x = touch.clientX
+        pointer.y = touch.clientY
+        if (!primed) {
+          current.x = pointer.x
+          current.y = pointer.y
+          primed = true
+        }
+        targetR = Math.round(SPHERE * 0.37)
       }
     }
 
     const handleTouchEnd = () => {
-      target.r = 0
+      targetR = 0
     }
 
     animateMask()
