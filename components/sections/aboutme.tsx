@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { useLanguage } from "@/contexts/language-context"
+import BlurText from "@/components/reactbits/BlurText"
 import Image from "next/image"
 
 export function AboutMe() {
@@ -152,7 +153,9 @@ export function AboutMe() {
           }}
         >
           <p className="mb-2 text-xs uppercase tracking-[0.3em] text-white/40 sm:mb-3 sm:tracking-[0.35em]">{t("about.section")}</p>
-          <h2 className="text-4xl font-bold text-white sm:text-5xl md:text-6xl">{t("about.title")}</h2>
+          <h2 className="text-4xl font-bold text-white sm:text-5xl md:text-6xl">
+            <BlurText key={`about-${lang}`} text={t("about.title")} />
+          </h2>
         </div>
 
         {/* Top: photo + bio */}

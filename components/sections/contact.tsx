@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { useLanguage } from "@/contexts/language-context"
+import BlurText from "@/components/reactbits/BlurText"
 
 const socials = [
   {
@@ -45,7 +46,7 @@ export function Contact() {
   const [form, setForm] = useState<FormState>({ name: "", email: "", message: "" })
   const [status, setStatus] = useState<Status>("idle")
   const [errorMsg, setErrorMsg] = useState("")
-  const { t } = useLanguage()
+  const { t, lang } = useLanguage()
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -221,7 +222,9 @@ export function Contact() {
           }}
         >
           <p className="mb-2 text-xs uppercase tracking-[0.3em] text-white/40 sm:mb-3 sm:tracking-[0.35em]">{t("contact.section")}</p>
-          <h2 className="text-4xl font-bold text-white sm:text-5xl md:text-6xl">{t("contact.title")}</h2>
+          <h2 className="text-4xl font-bold text-white sm:text-5xl md:text-6xl">
+            <BlurText key={`contact-${lang}`} text={t("contact.title")} />
+          </h2>
         </div>
 
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">

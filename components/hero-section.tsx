@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react"
 import { HeroOrbits } from "@/components/hero-orbits"
+import SplitText from "@/components/reactbits/SplitText"
+import ShinyText from "@/components/reactbits/ShinyText"
 import { useLanguage } from "@/contexts/language-context"
 import { useTransition } from "@/contexts/transition-context"
 
@@ -47,16 +49,16 @@ export function HeroSection() {
 
       <div className="relative z-20 mx-auto flex w-full max-w-7xl px-4 sm:px-6 md:px-10">
         <div className="max-w-2xl">
-          <p className="mb-3 text-xs uppercase tracking-[0.25em] text-white/60 sm:mb-4 sm:text-sm sm:tracking-[0.3em]">
-            {t("hero.subtitle")}
+          <p className="mb-3 text-xs uppercase tracking-[0.25em] sm:mb-4 sm:text-sm sm:tracking-[0.3em]">
+            <ShinyText text={t("hero.subtitle")} speed={4} />
           </p>
 
           <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl md:text-7xl">
-            {t("hero.title1")}
+            <SplitText text={t("hero.title1")} startDelay={0.1} />
             <br />
-            {t("hero.title2")}
+            <SplitText text={t("hero.title2")} startDelay={0.3} />
             <br />
-            {t("hero.title3")}
+            <SplitText text={t("hero.title3")} startDelay={0.5} />
           </h1>
 
           <p className="mt-4 max-w-xl text-sm leading-7 text-white/70 sm:mt-6 sm:text-base md:text-lg">
@@ -91,7 +93,9 @@ export function HeroSection() {
         }}
       >
         <span className="hero-scroll-line"></span>
-        <span className="hero-scroll-text">{t("hero.scroll")}</span>
+        <span className="hero-scroll-text">
+          <ShinyText text={t("hero.scroll")} speed={3} />
+        </span>
       </a>
 
       {/* Mobile scroll indicator */}
