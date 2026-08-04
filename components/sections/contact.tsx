@@ -40,6 +40,13 @@ const socials = [
 type FormState = { name: string; email: string; message: string }
 type Status = "idle" | "sending" | "sent" | "error"
 
+const CONTACT_EMAIL = "nicohlas.personal@gmail.com"
+
+// FormSubmit acepta el email directo o un alias aleatorio (recomendado: evita
+// exponer la dirección en el bundle de JS). Configúralo en Vercel como
+// NEXT_PUBLIC_FORMSUBMIT_ID; si no existe, cae al email.
+const FORMSUBMIT_TARGET = process.env.NEXT_PUBLIC_FORMSUBMIT_ID || CONTACT_EMAIL
+
 export function Contact() {
   const sectionRef = useRef<HTMLElement>(null)
   const [visible, setVisible] = useState(false)
@@ -47,6 +54,11 @@ export function Contact() {
   const [status, setStatus] = useState<Status>("idle")
   const [errorMsg, setErrorMsg] = useState("")
   const { t, lang } = useLanguage()
+
+  // Enlace de respaldo: si el envío falla, el visitante no pierde lo que escribió.
+  const mailtoFallback = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+    `Portfolio — ${form.name || "Nuevo mensaje"}`
+  )}&body=${encodeURIComponent(`${form.message}\n\n---\n${form.name} <${form.email}>`)}`
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -67,7 +79,7 @@ export function Contact() {
     setErrorMsg("")
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/nicohlas.personal@gmail.com", {
+      const response = await fetch(`https://formsubmit.co/ajax/${FORMSUBMIT_TARGET}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -77,22 +89,37 @@ export function Contact() {
           name: form.name,
           email: form.email,
           message: form.message,
-          _subject: `New message from ${form.name} - Portfolio Contact`,
+          _subject: `Portfolio — nuevo mensaje de ${form.name}`,
+          _template: "table",
+          _captcha: "false",
         })
       })
 
-      const data = await response.json()
-      
-      if (data.success === "true" || data.success === true) {
+      // FormSubmit devuelve HTML (no JSON) cuando algo falla a nivel de servicio,
+      // así que parseamos a la defensiva en vez de dejar que .json() reviente.
+      const raw = await response.text()
+      let data: { success?: string | boolean; message?: string } = {}
+      try {
+        data = JSON.parse(raw)
+      } catch {
+        data = {}
+      }
+
+      if (response.ok && (data.success === "true" || data.success === true)) {
         setStatus("sent")
         setForm({ name: "", email: "", message: "" })
-      } else {
-        setStatus("error")
-        setErrorMsg(t("contact.error"))
+        return
       }
-    } catch {
+
+      setStatus("error")
+      // Mostramos el motivo real del servicio (p. ej. "necesitas activar el
+      // formulario desde el enlace enviado a tu correo") en vez de un genérico.
+      setErrorMsg(data.message || t("contact.error"))
+      console.error("[contact] envío fallido", { status: response.status, body: raw })
+    } catch (err) {
       setStatus("error")
       setErrorMsg(t("contact.error"))
+      console.error("[contact] error de red", err)
     }
   }
 
@@ -313,11 +340,19 @@ export function Contact() {
                 </div>
 
                 {status === "error" && (
-                  <div className="flex items-center gap-2 text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
-                    {errorMsg}
+                  <div className="flex flex-col gap-2 text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3">
+                    <div className="flex items-start gap-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" className="mt-0.5 flex-shrink-0">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                      </svg>
+                      <span>{errorMsg}</span>
+                    </div>
+                    <a
+                      href={mailtoFallback}
+                      className="self-start text-xs text-cyan-400 underline underline-offset-2 transition-colors hover:text-cyan-300"
+                    >
+                      {t("contact.fallback")}
+                    </a>
                   </div>
                 )}
 

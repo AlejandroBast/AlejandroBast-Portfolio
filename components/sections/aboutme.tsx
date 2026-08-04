@@ -218,21 +218,13 @@ export function AboutMe() {
                 <>I am <span className="text-white font-semibold">Alejandro Bast</span>, a <span className="text-white/90">Full Stack Junior</span> web developer with a passion for building modern, functional, and well-designed digital products.</>
               )}
             </p>
-            <p className="mb-4 text-base leading-7 text-white/70 sm:mb-5 sm:text-lg sm:leading-8">
+            <p className="mb-6 text-base leading-7 text-white/70 sm:mb-8 sm:text-lg sm:leading-8">
               {lang === "es" ? (
                 <>Actualmente curso el tercer año de <span className="text-white/90">Ingeniería de Software</span> e Ingeniería en Software Comercial. Trabajo con un stack amplio que abarca desde frontend y backend hasta bases de datos, DevOps y diseño UI.</>
               ) : (
                 <>I am currently in my third year of <span className="text-white/90">Software Engineering</span> and Commercial Software Engineering. I work with a broad stack spanning frontend and backend to databases, DevOps, and UI design.</>
               )}
             </p>
-            <p className="mb-6 text-base leading-7 text-white/70 sm:mb-8 sm:text-lg sm:leading-8">
-              {lang === "es" ? (
-                <>Más allá del código, me interesa el desarrollo de videojuegos con Unreal Engine 5, la manipulación de hardware y mantenerme en constante aprendizaje de nuevas tecnologías.</>
-              ) : (
-                <>Beyond code, I am interested in game development with Unreal Engine 5, hardware manipulation, and constantly learning new technologies.</>
-              )}
-            </p>
-
             {/* Education */}
             <div className="mb-6 sm:mb-8">
               <p className="mb-3 text-xs uppercase tracking-[0.25em] text-white/35 sm:mb-4 sm:tracking-[0.3em]">{t("about.education")}</p>
